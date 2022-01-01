@@ -7,6 +7,8 @@ public enum Lang {
     NO_PLAYER_EXIST("no-player-exist", "&cThat player does not exist!"),
     NOTIFY_DESC("notify-desc", "&7Allows you turn on and off alerts"),
     NOTIFY_SYN("notify-syn", "&7/minealert notify"),
+    RELOAD_DESC("reload-desc", "&7Allows you to reload all config files"),
+    RELOAD_SYN("reload-syn", "&7/minealert reload"),
     NOTIFY_ENABLED("notify-enabled", "&7You have successfully enabled alert notifications!"),
     NOTIFY_DISABLED("notify-disabled", "&7You have successfully disabled alert notifications!"),
     INSPECT_DESC("inspect-desc", "&7Allows you to view a specific player!"),

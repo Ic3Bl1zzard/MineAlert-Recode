@@ -1,16 +1,14 @@
 package dev.minealert.command;
 
-import dev.minealert.command.sub.Inspect;
-import dev.minealert.command.sub.Interval;
-import dev.minealert.command.sub.Notify;
-import dev.minealert.command.sub.Settings;
+import dev.minealert.command.sub.*;
 
 public enum SubCommandTypes {
 
     NOTIFY("notify", new Notify()),
     INSPECT("inspect", new Inspect()),
     INTERVAL("interval", new Interval()),
-    SETTINGS("settings", new Settings());
+    SETTINGS("settings", new Settings()),
+    RELOAD("reload", new ReloadConfig());
 
     private final String name;
     private final SubCommand subCommand;
