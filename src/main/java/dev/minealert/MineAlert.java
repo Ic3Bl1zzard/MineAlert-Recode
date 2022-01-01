@@ -37,6 +37,7 @@ public class MineAlert extends JavaPlugin {
     }
 
     public void onDisable() {
+        if(!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) return;
         final MineDataUtils instance = MineDataUtils.getInstance();
         Collection<? extends Player> playerList = Bukkit.getServer().getOnlinePlayers();
         if (playerList.size() == 0) return;
@@ -53,6 +54,7 @@ public class MineAlert extends JavaPlugin {
     }
 
     private void registerDatabase() {
+        if(!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) return;
         DatabaseInit.getInstance().initDatabase();
     }
 

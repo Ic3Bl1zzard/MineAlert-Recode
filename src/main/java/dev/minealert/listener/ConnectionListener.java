@@ -4,6 +4,7 @@ import dev.minealert.MineAlert;
 import dev.minealert.database.DatabaseUUIDTool;
 import dev.minealert.database.SQLUtils;
 import dev.minealert.database.cache.CacheSystem;
+import dev.minealert.files.DatabaseFile;
 import dev.minealert.inventories.SettingsMenu;
 import dev.minealert.modules.AbstractModule;
 import dev.minealert.modules.alert.AbstractAlertModule;
@@ -26,6 +27,9 @@ public class ConnectionListener implements Listener {
         CompletableFuture.runAsync(() -> {
             for (Class<? extends AbstractAlertModule> alertList : MineDataUtils.getInstance().getModuleAlertList()) {
                 AbstractModule.getModule(alertList).ifPresent(alert -> alert.callInit(player));
+            }
+            if(!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")){
+                return;
             }
             SQLUtils.getInstance().executeQuery("SELECT * FROM MINEDATA WHERE UUID =?", ps -> ps.setBinaryStream(1, DatabaseUUIDTool.convertUniqueId(player.getUniqueId())), rs -> {
                 if (rs.next()) {

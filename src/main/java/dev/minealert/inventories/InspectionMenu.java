@@ -3,6 +3,7 @@ package dev.minealert.inventories;
 import dev.minealert.MineAlert;
 import dev.minealert.database.DatabaseUUIDTool;
 import dev.minealert.database.SQLUtils;
+import dev.minealert.files.DatabaseFile;
 import dev.minealert.files.lang.Lang;
 import dev.minealert.modules.AbstractModule;
 import dev.minealert.modules.alert.AbstractAlertModule;
@@ -150,7 +151,11 @@ public class InspectionMenu extends AbstractMenu {
     private synchronized void onClick(Player player, Lang mappedValue, Lang overallValue, int listElement, String resultID) {
         CompletableFuture.runAsync(() -> {
             MessageUtils.sendFormattedMessage(prefix + mappedValue.toConfigString().replace("%amount%", getMapData(listElement)), player);
-            MessageUtils.sendFormattedMessage(prefix + overallValue.toConfigString().replace("%amount%", getDatabaseData(resultID)));
+            if (DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) {
+                MessageUtils.sendFormattedMessage(prefix + overallValue.toConfigString().replace("%amount%", getDatabaseData(resultID)), player);
+            } else {
+                MessageUtils.sendFormattedMessage(prefix + "&cThere is currently no database in place to fetch values!", player);
+            }
             MineAlert.getInstance().doSync(() -> player.getOpenInventory().close());
         });
     }

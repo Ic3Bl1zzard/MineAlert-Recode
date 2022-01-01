@@ -1,6 +1,7 @@
 package dev.minealert.database.cache;
 
 import dev.minealert.database.DatabaseUUIDTool;
+import dev.minealert.files.DatabaseFile;
 import dev.minealert.modules.AbstractModule;
 import dev.minealert.modules.alert.AbstractAlertModule;
 import dev.minealert.database.SQLUtils;
@@ -23,6 +24,10 @@ public class CacheSystem {
     }
 
     public void loopCacheSystem(Player player) {
+        if (!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) {
+            return;
+        }
+
         StringBuilder statement = new StringBuilder();
 
         statement.append("UPDATE MINEDATA SET ");
