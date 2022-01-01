@@ -18,7 +18,7 @@ public class LangFile extends AbstractFile {
 
     @Override
     public void registerFile() {
-        createFile(MineAlert.getInstance(), "message.yml");
+        createFile(MineAlert.getInstance(), "messages.yml");
         setData();
         saveFile();
     }
