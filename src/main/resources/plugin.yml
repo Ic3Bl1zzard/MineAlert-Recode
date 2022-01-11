@@ -4,3 +4,4 @@ api-version: 1.13
 version: 1.0.0
 commands:
   minealert:
+    aliases: [ma]

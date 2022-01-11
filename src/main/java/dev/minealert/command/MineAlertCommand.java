@@ -11,25 +11,20 @@ public class MineAlertCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender s, Command command, String label, String[] args) {
-            if (!(s instanceof final Player player)) {
-                System.out.println("Only players can use this command!");
-                return true;
-            }
-
-            if (!player.hasPermission("minealert.help")) {
-                MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + Lang.NO_PERMISSION.toConfigString(), player);
+        if (!s.hasPermission("minealert.help")) {
+                MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + Lang.NO_PERMISSION.toConfigString(), s);
                 return true;
             }
 
             if (args.length > 0) {
                 for (SubCommand subCommand : SubCommandRegistry.getInstance().getSubCommandList()) {
                     if (args[0].equalsIgnoreCase(subCommand.getName())) {
-                        subCommand.perform(player, args);
+                        subCommand.perform(s, args);
                     }
                 }
             } else {
                 for (SubCommand subCommand : SubCommandRegistry.getInstance().getSubCommandList()) {
-                    MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + subCommand.getSyntax() + " - " + subCommand.getDescription(), player);
+                    MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + subCommand.getSyntax() + " - " + subCommand.getDescription(), s);
                 }
             }
         return true;

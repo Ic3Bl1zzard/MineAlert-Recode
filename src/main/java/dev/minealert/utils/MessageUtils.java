@@ -3,6 +3,7 @@ package dev.minealert.utils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class MessageUtils {
@@ -25,5 +26,9 @@ public class MessageUtils {
 
     public static void sendConsoleMessage(String text) {
         Bukkit.getConsoleSender().sendMessage(FormatUtils.color(text));
+    }
+
+    public static void sendFormattedMessage(String text, CommandSender sender){
+        sender.sendMessage(FormatUtils.color(text));
     }
 }

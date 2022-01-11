@@ -26,13 +26,12 @@ public class Interval extends SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        final Player player = (Player) sender;
-        if (!player.hasPermission("minealert.notify")) {
-            MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + Lang.NO_PERMISSION.toConfigString(), player);
+        if (!sender.hasPermission("minealert.notify")) {
+            MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + Lang.NO_PERMISSION.toConfigString(), sender);
             return;
         }
         String message = Lang.INTERVAL_MESSAGE.toConfigString();
         message = message.replace("%amount%", String.valueOf(MineAlert.getInterval()));
-        MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + message, player);
+        MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + message, sender);
     }
 }

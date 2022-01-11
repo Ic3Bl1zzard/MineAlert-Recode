@@ -28,7 +28,10 @@ public class Inspect extends SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
         if (args.length <= 1) return;
-        final Player player = (Player) sender;
+        if (!(sender instanceof final Player player)) {
+            System.out.println("Only players can use this command!");
+            return;
+        }
         if (!player.hasPermission("minealert.inspect")) {
             MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + Lang.NO_PERMISSION.toConfigString(), player);
             return;
