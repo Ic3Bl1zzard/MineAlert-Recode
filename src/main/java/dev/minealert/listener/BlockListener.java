@@ -6,7 +6,6 @@ import dev.minealert.modules.alert.types.*;
 import dev.minealert.utils.BlockPlacePatchUtil;
 import dev.minealert.utils.MineDataUtils;
 import dev.minealert.utils.Version;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

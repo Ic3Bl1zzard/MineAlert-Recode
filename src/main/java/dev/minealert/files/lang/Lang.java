@@ -9,6 +9,7 @@ public enum Lang {
     NOTIFY_SYN("notify-syn", "&7/minealert notify"),
     RELOAD_DESC("reload-desc", "&7Allows you to reload all config files"),
     RELOAD_SYN("reload-syn", "&7/minealert reload"),
+    RELOAD_MESSAGE("reload-message","&aYou have successfully reloaded all the files!"),
     NOTIFY_ENABLED("notify-enabled", "&7You have successfully enabled alert notifications!"),
     NOTIFY_DISABLED("notify-disabled", "&7You have successfully disabled alert notifications!"),
     INSPECT_DESC("inspect-desc", "&7Allows you to view a specific player!"),

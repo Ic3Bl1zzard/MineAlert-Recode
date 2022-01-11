@@ -1,8 +1,8 @@
 package dev.minealert.command.sub;
 
+import dev.minealert.MineAlert;
 import dev.minealert.command.SubCommand;
 import dev.minealert.files.lang.Lang;
-import dev.minealert.tasks.MineDataTask;
 import dev.minealert.utils.MessageUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class Interval extends SubCommand {
             return;
         }
         String message = Lang.INTERVAL_MESSAGE.toConfigString();
-        message = message.replace("%amount%", String.valueOf(MineDataTask.getInterval()));
+        message = message.replace("%amount%", String.valueOf(MineAlert.getInterval()));
         MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + message, player);
     }
 }

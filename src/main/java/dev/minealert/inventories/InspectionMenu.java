@@ -7,7 +7,6 @@ import dev.minealert.files.DatabaseFile;
 import dev.minealert.files.lang.Lang;
 import dev.minealert.modules.AbstractModule;
 import dev.minealert.modules.alert.AbstractAlertModule;
-import dev.minealert.tasks.MineDataTask;
 import dev.minealert.utils.*;
 import dev.minealert.utils.inventory.AbstractMenu;
 import org.bukkit.Material;
@@ -23,7 +22,7 @@ public class InspectionMenu extends AbstractMenu {
     private final String prefix = Lang.PREFIX.toConfigString();
 
     public InspectionMenu(Player inspected) {
-        super(54, FormatUtils.color("&7Inspection Menu &8(&f" + inspected + "&8)"));
+        super(54, FormatUtils.color("&7Inspection Menu &8(&f" + inspected.getName() + "&8)"));
 
         final List<String> singleLore = List.of("&7Click to check the user's data!");
         this.inspected = inspected;
@@ -111,7 +110,7 @@ public class InspectionMenu extends AbstractMenu {
                     player -> onClick(player, Lang.DEEPEMERALD_MAPPED_DATA, Lang.DEEPEMERALD_OVERALL_DATA, 6, "DEEPEMERALD"));
         }
 
-        setItem(48, builder.itemType(Material.CLOCK).itemAmount(1).itemName("&7Interval").itemLore(List.of("&7Interval: &a" + MineDataTask.getInterval())).build(),
+        setItem(48, builder.itemType(Material.CLOCK).itemAmount(1).itemName("&7Interval").itemLore(List.of("&7Interval: &a" + MineAlert.getInterval())).build(),
                 player -> player.getOpenInventory().close());
 
         setItem(49, builder.itemType(Material.BARRIER).itemAmount(1).itemName("&cClose").itemLore(List.of("&7Click to close the menu!")).build(),

@@ -29,5 +29,8 @@ public class DatabaseFile extends AbstractFile {
         config.set("database", "minealertdb");
         config.set("user", "username");
         config.set("password", "admin");
+        config.set("driver", "MYSQL");
+        config.set("timeout", 5000);
+        config.set("maxpool", 10);
     }
 }

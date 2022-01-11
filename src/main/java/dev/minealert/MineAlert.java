@@ -12,7 +12,8 @@ import dev.minealert.listener.AbstractMenuListener;
 import dev.minealert.listener.BlockListener;
 import dev.minealert.listener.ConnectionListener;
 import dev.minealert.listener.ItemListeners;
-import dev.minealert.tasks.MineDataTask;
+import dev.minealert.modules.alert.StaffAlert;
+import dev.minealert.utils.BlockPlacePatchUtil;
 import dev.minealert.utils.MessageUtils;
 import dev.minealert.utils.MineDataUtils;
 import dev.minealert.modules.AbstractModule;
@@ -23,8 +24,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 public class MineAlert extends JavaPlugin {
+    private static int interval;
 
     public void onEnable() {
         registerFiles();
@@ -32,12 +36,32 @@ public class MineAlert extends JavaPlugin {
         registerModules();
         registerCommands();
         registerListeners();
-        registerTasks();
         MessageUtils.sendConsoleMessage(Lang.PREFIX.toConfigString() + "If any changes were made its best to restart the server!");
+        interval = OreSettingsFile.getInstance().getFileConfiguration().getInt("interval");
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            interval--;
+            if (interval <= 0) {
+                final MineDataUtils instance = MineDataUtils.getInstance();
+                BlockPlacePatchUtil.getInstance().getBlockLocations().clear();
+                Collection<? extends Player> playerList = Bukkit.getServer().getOnlinePlayers();
+                if (playerList.size() != 0) {
+                    CompletableFuture.runAsync(() -> {
+                        for (Player all : playerList) {
+                            CacheSystem.getInstance().loopCacheSystem(all);
+                            instance.clearMineData();
+                            instance.addAll(all);
+                            if (StaffAlert.getInstance().containsStaffMember(all.getName()))
+                                MessageUtils.sendFormattedMessage(Lang.PREFIX.toConfigString() + Lang.DATA_RESET_MESSAGE.toConfigString(), all);
+                        }
+                    }).whenComplete((unused, throwable) -> interval = OreSettingsFile.getInstance().getFileConfiguration().getInt("interval"));
+                }
+            }
+        }, 20, 20);
     }
 
+
     public void onDisable() {
-        if(!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) return;
+        if (!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) return;
         final MineDataUtils instance = MineDataUtils.getInstance();
         Collection<? extends Player> playerList = Bukkit.getServer().getOnlinePlayers();
         if (playerList.size() == 0) return;
@@ -54,7 +78,7 @@ public class MineAlert extends JavaPlugin {
     }
 
     private void registerDatabase() {
-        if(!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) return;
+        if (!DatabaseFile.getInstance().getFileConfiguration().getBoolean("enable")) return;
         DatabaseInit.getInstance().initDatabase();
     }
 
@@ -70,8 +94,7 @@ public class MineAlert extends JavaPlugin {
     }
 
     private void registerListeners() {
-        addListener(new ConnectionListener(),
-                new BlockListener(), new AbstractMenuListener(), new ItemListeners());
+        addListener(new ConnectionListener(), new BlockListener(), new AbstractMenuListener(), new ItemListeners());
     }
 
     private void addListener(Listener... listeners) {
@@ -80,12 +103,12 @@ public class MineAlert extends JavaPlugin {
         }
     }
 
-    private void registerTasks() {
-        MineDataTask.initRunnable();
-    }
-
     public static MineAlert getInstance() {
         return MineAlert.getPlugin(MineAlert.class);
+    }
+
+    public static int getInterval() {
+        return interval;
     }
 
     public void doAsync(Runnable runnable) {
