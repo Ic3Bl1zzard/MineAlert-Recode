@@ -2,7 +2,7 @@ package dev.minealert.database;
 
 public enum SQLTypes {
 
-    MYSQL("com.mysql.jdbc.Driver", "jdbc:mysql://{host}:{port}/{database}"),
+    MYSQL("com.mysql.cj.jdbc.Driver", "jdbc:mysql://{host}:{port}/{database}"),
     SQLITE("org.sqlite.JDBC", "jdbc:sqlite:{database}"),
     POSTGRES("org.postgresql.ds.PGSimpleDataSource", "jdbc:postgresql://{host}:{port}/{database}");
 
